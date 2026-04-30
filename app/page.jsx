@@ -137,7 +137,18 @@ export default function Home() {
 
       {/* 1. Hero Section — Cinematic */}
       <section className="hero">
-        {/* Background removed as requested */}
+        <div className="hero-visual">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="hero-video"
+          >
+            <source src="https://v1.pinimg.com/videos/mc/720p/b8/a0/c3/b8a0c30eb2f36854d3ca7e877c579878.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div className="hero-overlay"></div>
 
 
         {/* Floating Particles */}
