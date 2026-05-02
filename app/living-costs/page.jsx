@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Euro, 
@@ -32,6 +33,7 @@ const cities = [
   {
     name: "Tirana",
     icon: Landmark,
+    image: "/images/tirana.png",
     priceRange: "€280 - €420/mo",
     basePrice: "€280",
     features: [
@@ -44,6 +46,7 @@ const cities = [
   {
     name: "Durrës",
     icon: Sailboat,
+    image: "/images/durres.png",
     priceRange: "€220 - €360/mo",
     basePrice: "€220",
     features: [
@@ -56,6 +59,7 @@ const cities = [
   {
     name: "Shkodër",
     icon: Mountain,
+    image: "/images/shkoder.png",
     priceRange: "€190 - €310/mo",
     basePrice: "€190",
     features: [
@@ -68,6 +72,7 @@ const cities = [
   {
     name: "Vlorë",
     icon: Waves,
+    image: "/images/vlore.png",
     priceRange: "€200 - €330/mo",
     basePrice: "€200",
     features: [
@@ -78,6 +83,97 @@ const cities = [
     ]
   }
 ];
+
+function CostCalculator() {
+  const [lifestyle, setLifestyle] = React.useState('moderate');
+  const [rent, setRent] = React.useState(250);
+  
+  const budgets = {
+    minimal: { food: 120, transit: 15, leisure: 40, total: rent + 175 },
+    moderate: { food: 180, transit: 25, leisure: 80, total: rent + 285 },
+    premium: { food: 300, transit: 50, leisure: 200, total: rent + 550 },
+  };
+
+  const current = budgets[lifestyle];
+
+  return (
+    <div className="premium-card" style={{ background: 'var(--midnight)', color: 'white', padding: '60px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <h3 style={{ fontSize: '2rem', color: 'var(--gold)', marginBottom: '12px' }}>Budget Planner</h3>
+        <p style={{ color: 'rgba(255,255,255,0.6)' }}>Estimate your monthly expenses based on your lifestyle.</p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
+        <div>
+          <div style={{ marginBottom: '40px' }}>
+            <label style={{ display: 'block', marginBottom: '16px', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '1px', color: 'var(--gold-soft)' }}>Choose Lifestyle</label>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {['minimal', 'moderate', 'premium'].map(type => (
+                <button 
+                  key={type}
+                  onClick={() => setLifestyle(type)}
+                  style={{ 
+                    flex: 1, 
+                    padding: '12px', 
+                    borderRadius: '12px', 
+                    border: '1px solid rgba(255,255,255,0.1)', 
+                    background: lifestyle === type ? 'var(--gold)' : 'rgba(255,255,255,0.05)',
+                    color: lifestyle === type ? 'var(--midnight)' : 'white',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'var(--transition)',
+                    textTransform: 'capitalize'
+                  }}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '40px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <label style={{ fontWeight: 700, textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '1px', color: 'var(--gold-soft)' }}>Monthly Rent</label>
+              <span style={{ fontWeight: 800, color: 'var(--gold)' }}>€{rent}</span>
+            </div>
+            <input 
+              type="range" 
+              min="150" max="600" step="10" 
+              value={rent} 
+              onChange={(e) => setRent(parseInt(e.target.value))}
+              style={{ width: '100%', accentColor: 'var(--gold)' }}
+            />
+          </div>
+        </div>
+
+        <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ display: 'grid', gap: '20px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>Accommodation</span>
+              <span style={{ fontWeight: 700 }}>€{rent}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>Food & Dining</span>
+              <span style={{ fontWeight: 700 }}>€{current.food}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>Transportation</span>
+              <span style={{ fontWeight: 700 }}>€{current.transit}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>Leisure & Misc</span>
+              <span style={{ fontWeight: 700 }}>€{current.leisure}</span>
+            </div>
+          </div>
+          <div style={{ paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 800, fontSize: '1.1rem' }}>ESTIMATED TOTAL</span>
+            <span style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--gold)' }}>€{current.total}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const savingTips = [
   { icon: Home, title: "Live in a Shared Flat", desc: "Sharing a 2-3 bedroom apartment with classmates can cut your rent by 40-60%. Most students prefer this for both savings and social life." },
@@ -216,27 +312,37 @@ export default function LivingCostsPage() {
                   background: 'rgba(255,255,255,0.03)', 
                   border: '1px solid rgba(255,255,255,0.05)', 
                   borderRadius: '24px', 
-                  padding: '32px',
-                  transition: 'var(--transition)'
+                  overflow: 'hidden',
+                  transition: 'var(--transition)',
+                  position: 'relative'
                 }}
                 whileHover={{ y: -10, borderColor: 'var(--gold)', background: 'rgba(255,255,255,0.05)', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}
               >
-                <city.icon size={32} color="var(--gold)" style={{ marginBottom: '24px' }} />
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '4px', fontWeight: 700 }}>{city.name}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: '16px' }}>Monthly cost</p>
-                
-                <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                  <span style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--gold)' }}>{city.basePrice}</span>
-                  <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{city.priceRange.replace(city.basePrice, '')}</span>
+                <div style={{ height: '200px', width: '100%', position: 'relative' }}>
+                  <img src={city.image} alt={city.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, rgba(13, 27, 61, 0.8))' }} />
+                  <div style={{ position: 'absolute', bottom: '20px', left: '24px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <city.icon size={20} color="var(--gold)" />
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>{city.name}</h3>
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: 'auto' }}>
-                  {city.features.map((feature, j) => (
-                    <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <CheckCircle size={16} color="var(--gold)" style={{ marginTop: '4px', flexShrink: 0 }} />
-                      <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', lineHeight: 1.5 }}>{feature}</span>
-                    </div>
-                  ))}
+                <div style={{ padding: '32px' }}>
+                  <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginBottom: '8px' }}>Monthly cost from</p>
+                  
+                  <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                    <span style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--gold)' }}>{city.basePrice}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{city.priceRange.replace(city.basePrice, '')}</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: 'auto' }}>
+                    {city.features.map((feature, j) => (
+                      <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                        <CheckCircle size={16} color="var(--gold)" style={{ marginTop: '4px', flexShrink: 0 }} />
+                        <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', lineHeight: 1.5 }}>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -289,8 +395,15 @@ export default function LivingCostsPage() {
         </div>
       </section>
 
-      {/* ── Breakdown Grid ── */}
+      {/* ── Calculator Section ── */}
       <section className="section" style={{ background: 'var(--bg-slate)' }}>
+        <div className="container">
+          <CostCalculator />
+        </div>
+      </section>
+
+      {/* ── Breakdown Grid ── */}
+      <section className="section" style={{ background: 'var(--bg-white)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 80px' }}>
             <h2 className="section-title">Detailed <span className="gradient-text">Lifestyle</span> Analysis</h2>
@@ -307,7 +420,7 @@ export default function LivingCostsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: 'var(--gold-soft)', color: 'var(--gold-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '32px' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '16px', background: 'rgba(255, 193, 7, 0.1)', color: 'var(--gold-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '32px' }}>
                   <item.icon size={28} />
                 </div>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', color: 'var(--midnight)' }}>{item.label}</h3>

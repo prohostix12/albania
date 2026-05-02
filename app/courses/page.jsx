@@ -1,7 +1,6 @@
 "use client";
-
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
   Clock, 
@@ -27,11 +26,29 @@ const allCourses = [
 
 export default function CoursesPage() {
   const [search, setSearch] = useState("");
+  const [activeLevel, setActiveLevel] = useState("All Levels");
 
   const filteredCourses = allCourses.filter(c => 
-    c.name.toLowerCase().includes(search.toLowerCase()) || 
-    c.university.toLowerCase().includes(search.toLowerCase())
+    (activeLevel === "All Levels" || c.level === activeLevel) &&
+    (c.name.toLowerCase().includes(search.toLowerCase()) || 
+    c.university.toLowerCase().includes(search.toLowerCase()))
   );
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } }
+  };
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg-white)' }}>
@@ -74,16 +91,21 @@ export default function CoursesPage() {
       {/* ── Search Bar ── */}
       <section style={{ marginTop: '-44px', position: 'relative', zIndex: 20 }}>
         <div className="container">
-          <div style={{ 
-            background: 'white', 
-            padding: '12px', 
-            borderRadius: '100px', 
-            boxShadow: 'var(--shadow-premium)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            border: '1px solid rgba(0,0,0,0.05)'
-          }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            style={{ 
+              background: 'white', 
+              padding: '12px', 
+              borderRadius: '100px', 
+              boxShadow: 'var(--shadow-premium)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              border: '1px solid rgba(0,0,0,0.05)'
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px', paddingLeft: '32px', flex: 1 }}>
               <Search size={22} color="var(--gold)" />
               <input 
@@ -94,16 +116,38 @@ export default function CoursesPage() {
                 style={{ border: 'none', outline: 'none', width: '100%', fontSize: '1.2rem', fontWeight: 500, color: 'var(--midnight)' }}
               />
             </div>
-            <button className="btn btn-primary" style={{ padding: '18px 48px' }}>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn btn-primary" 
+              style={{ padding: '18px 48px' }}
+            >
               Search Catalog
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
           
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '32px' }}>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '32px', flexWrap: 'wrap' }}>
             {['All Levels', 'Bachelor', 'Master', 'PhD', 'Short Courses'].map((tag, i) => (
-              <button key={tag} style={{ padding: '8px 24px', borderRadius: '100px', background: i === 0 ? 'var(--midnight)' : 'white', color: i === 0 ? 'white' : 'var(--midnight)', border: '1px solid rgba(0,0,0,0.05)', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', transition: '0.3s' }}>
+              <motion.button 
+                key={tag}
+                onClick={() => setActiveLevel(tag)}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ 
+                  padding: '8px 24px', 
+                  borderRadius: '100px', 
+                  background: activeLevel === tag ? 'var(--midnight)' : 'white', 
+                  color: activeLevel === tag ? 'white' : 'var(--midnight)', 
+                  border: '1px solid rgba(0,0,0,0.05)', 
+                  fontWeight: 700, 
+                  fontSize: '0.9rem', 
+                  cursor: 'pointer', 
+                  transition: '0.3s',
+                  boxShadow: activeLevel === tag ? '0 4px 15px rgba(13, 27, 61, 0.2)' : 'none'
+                }}
+              >
                 {tag}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -112,48 +156,59 @@ export default function CoursesPage() {
       {/* ── Courses Grid ── */}
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '40px' }}>
-            {filteredCourses.map((course, i) => (
-              <motion.div 
-                key={course.id} 
-                className="premium-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                  <div style={{ background: 'var(--gold-soft)', color: 'var(--gold-dark)', padding: '8px 18px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 800, border: '1px solid var(--gold-soft)', textTransform: 'uppercase' }}>
-                    {course.level}
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            layout
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '40px' }}
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredCourses.map((course) => (
+                <motion.div 
+                  key={course.id} 
+                  variants={itemVariants}
+                  layout
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="premium-card"
+                  whileHover={{ y: -10, borderColor: 'var(--gold)', boxShadow: 'var(--shadow-lg)' }}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                    <div style={{ background: 'var(--gold-soft)', color: 'var(--gold-dark)', padding: '8px 18px', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 800, border: '1px solid var(--gold-soft)', textTransform: 'uppercase' }}>
+                      {course.level}
+                    </div>
+                    <div style={{ color: 'var(--midnight)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1rem', fontWeight: 800 }}>
+                      <Euro size={18} color="var(--gold-dark)" /> {course.tuition}
+                    </div>
                   </div>
-                  <div style={{ color: 'var(--midnight)', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1rem', fontWeight: 800 }}>
-                    <Euro size={18} color="var(--gold-dark)" /> {course.tuition}
+                  
+                  <h3 style={{ fontSize: '1.8rem', marginBottom: '16px', lineHeight: 1.2, color: 'var(--midnight)' }}>{course.name}</h3>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-muted)', marginBottom: '32px', fontSize: '1rem', fontWeight: 600 }}>
+                    <GraduationCap size={20} color="var(--gold)" />
+                    {course.university}
                   </div>
-                </div>
-                
-                <h3 style={{ fontSize: '1.8rem', marginBottom: '16px', lineHeight: 1.2, color: 'var(--midnight)' }}>{course.name}</h3>
-                
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-muted)', marginBottom: '32px', fontSize: '1rem', fontWeight: 600 }}>
-                  <GraduationCap size={20} color="var(--gold)" />
-                  {course.university}
-                </div>
-                
-                <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.7, marginBottom: '40px' }}>
-                  {course.desc}
-                </p>
-                
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '32px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--midnight)', fontWeight: 800 }}>
-                    <Clock size={18} color="var(--gold)" />
-                    {course.duration}
+                  
+                  <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.7, marginBottom: '40px', flex: 1 }}>
+                    {course.desc}
+                  </p>
+                  
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '32px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--midnight)', fontWeight: 800 }}>
+                      <Clock size={18} color="var(--gold)" />
+                      {course.duration}
+                    </div>
+                    <Link href="/contact" style={{ color: 'var(--midnight)', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.95rem' }}>
+                      Apply for Intake <ArrowRight size={20} color="var(--gold)" />
+                    </Link>
                   </div>
-                  <Link href="/contact" style={{ color: 'var(--midnight)', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.95rem' }}>
-                    Apply for Intake <ArrowRight size={20} color="var(--gold)" />
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
     </main>

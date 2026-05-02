@@ -40,10 +40,10 @@ export default function PlacementsPage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg-white)' }}>
       {/* ── Subpage Hero ── */}
       <section className="section" style={{ paddingTop: '200px', paddingBottom: '120px', background: 'var(--midnight)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.2 }}>
-          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.3 }}>
+          <img src="/images/placement_hero.png" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, var(--midnight) 20%, transparent 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(13, 27, 61, 0.9) 20%, transparent 100%)' }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
           <motion.div 
@@ -106,42 +106,68 @@ export default function PlacementsPage() {
             <h2 className="section-title" style={{ fontSize: '2.5rem', color: 'var(--deep-blue)', marginBottom: '16px', fontWeight: 800 }}>Where Our <span style={{ color: 'var(--ocean-blue)' }}>Alumni</span> Succeed</h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Direct recruitment pipelines with top European and global employers.</p>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '24px' }}>
             {[
-              { name: 'Google', icon: Globe },
-              { name: 'Microsoft', icon: Monitor },
-              { name: 'Deloitte', icon: Building2 },
-              { name: 'Amazon', icon: ShoppingCart },
-              { name: 'Spotify', icon: Music },
-              { name: 'Accenture', icon: Briefcase },
-              { name: 'IBM', icon: Server },
-              { name: 'Apple', icon: Smartphone },
-              { name: 'Meta', icon: Users },
-              { name: 'PwC', icon: Building2 },
-            ].map((company, i) => (
+              'Google', 'Microsoft', 'Deloitte', 'Amazon', 'Spotify',
+              'Accenture', 'IBM', 'Apple', 'Meta', 'PwC'
+            ].map((name, i) => (
               <motion.div 
                 key={i} 
+                className="premium-card"
                 style={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '20px 32px', 
-                  background: 'white', 
-                  borderRadius: '16px', 
-                  boxShadow: 'var(--shadow-soft)', 
-                  border: '1px solid rgba(0,0,0,0.05)',
-                  fontSize: '1.4rem',
-                  fontWeight: 900,
-                  color: 'var(--text-muted)',
-                  letterSpacing: '-0.5px',
-                  transition: 'var(--transition)'
+                  padding: '32px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  background: 'white',
+                  filter: 'grayscale(1)',
+                  opacity: 0.7,
+                  transition: 'all 0.4s ease'
                 }}
-                whileHover={{ y: -5, color: 'var(--deep-blue)', borderColor: 'var(--ocean-blue)', boxShadow: 'var(--shadow-md)' }}
+                whileHover={{ filter: 'grayscale(0)', opacity: 1, scale: 1.05, borderColor: 'var(--gold)' }}
               >
-                <company.icon size={28} style={{ opacity: 0.8 }} />
-                <span>{company.name}</span>
+                <span style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--deep-blue)', letterSpacing: '-0.5px' }}>{name}</span>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Placement Roadmap ── */}
+      <section className="section" style={{ background: 'var(--bg-white)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 80px' }}>
+            <h2 className="section-title">The Placement <span className="gold-text">Roadmap</span></h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>A structured pathway from enrollment to a global career.</p>
+          </div>
+
+          <div style={{ position: 'relative' }}>
+            {/* Connector Line */}
+            <div style={{ position: 'absolute', top: '50px', left: '10%', right: '10%', height: '2px', background: 'linear-gradient(90deg, transparent, var(--gold), transparent)', zIndex: 1 }} />
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px', position: 'relative', zIndex: 2 }}>
+              {[
+                { step: "01", title: "Academic Rigor", desc: "Industry-aligned curriculum with EU accreditation.", icon: Award },
+                { step: "02", title: "Skill Lab", desc: "Hands-on workshops with international experts.", icon: Sparkles },
+                { step: "03", title: "Career Coaching", desc: "1-on-1 mentorship and resume optimization.", icon: Users },
+                { step: "04", title: "Global Entry", desc: "Direct interviews with our 150+ partner firms.", icon: Globe }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  style={{ textAlign: 'center' }}
+                >
+                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'var(--midnight)', color: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', border: '4px solid var(--bg-white)', boxShadow: '0 0 0 4px var(--gold-soft)' }}>
+                    <item.icon size={32} />
+                  </div>
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '12px' }}>{item.title}</h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
