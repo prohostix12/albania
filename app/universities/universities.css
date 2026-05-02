@@ -1,32 +1,20 @@
-/* Universities Page Styles */
+/* Universities Page - Professional Blue/Yellow Redesign */
 
-/* Hero */
 .uni-hero {
   position: relative;
-  min-height: 520px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 24px 60px;
+  padding: 140px 24px 80px;
+  background: var(--deep-blue);
   overflow: hidden;
-}
-
-.uni-hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.uni-hero-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .uni-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(0, 0, 0, 0.92) 0%, rgba(20, 20, 20, 0.88) 100%);
+  background: linear-gradient(160deg, rgba(13, 27, 61, 0.9) 0%, rgba(30, 115, 216, 0.4) 100%);
   z-index: 1;
 }
 
@@ -35,387 +23,140 @@
   z-index: 2;
   max-width: 860px;
   text-align: center;
-  color: #fff;
 }
 
 .uni-hero-tag {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 6px 20px;
+  background: var(--sunshine-yellow);
+  color: var(--deep-blue);
+  padding: 8px 24px;
   border-radius: 30px;
   font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  backdrop-filter: blur(6px);
-}
-
-.uni-hero-title {
-  font-size: 3.5rem;
-  font-weight: 900;
-  line-height: 1.15;
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-}
-
-.uni-hero-title span {
-  background: linear-gradient(90deg, #E8B830, #F5D060);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.uni-hero-subtitle {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 640px;
-  margin: 0 auto 36px;
-  line-height: 1.7;
-}
-
-/* Hero Stats */
-.uni-hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  padding: 14px 20px;
-  border-radius: 14px;
-  transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-  background: rgba(255, 255, 255, 0.18);
-  transform: translateY(-3px);
-}
-
-.stat-item svg {
-  color: #E8B830;
-  flex-shrink: 0;
-}
-
-.stat-item div {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.stat-item strong {
-  font-size: 1.3rem;
   font-weight: 800;
-  line-height: 1.2;
-}
-
-.stat-item span {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 500;
-}
-
-.uni-listing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 32px;
-}
-
-.uni-detail-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-}
-
-.uni-detail-card.is-expanded {
-  grid-column: 1 / -1;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.uni-detail-card:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1);
-}
-
-/* Card Image */
-.uni-detail-img {
-  position: relative;
-  height: 220px;
-  overflow: hidden;
-}
-
-.is-expanded .uni-detail-img {
-  height: 320px;
-}
-
-.uni-detail-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.uni-detail-card:hover .uni-detail-img img {
-  transform: scale(1.05);
-}
-
-.uni-detail-img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
-  display: flex;
-  align-items: flex-end;
-  padding: 24px;
-}
-
-.uni-type-badge {
-  color: #fff;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Card Body */
-.uni-detail-body {
-  padding: 36px 40px 40px;
-}
-
-.uni-detail-header h2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 12px;
-}
-
-.uni-meta-row {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.uni-meta-row span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 500;
-}
-
-.uni-meta-row svg {
-  color: var(--secondary-blue);
-  flex-shrink: 0;
-}
-
-.uni-description {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
-  line-height: 1.75;
+  letter-spacing: 1.5px;
   margin-bottom: 24px;
 }
 
-/* Info Chips */
-.uni-info-chips {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
+.uni-hero-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  letter-spacing: -2px;
 }
 
-.info-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--light-blue);
-  color: var(--secondary-blue);
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 0.88rem;
-  font-weight: 600;
+.uni-hero-title span {
+  color: var(--sunshine-yellow);
 }
 
-.info-chip svg {
-  flex-shrink: 0;
+.uni-hero-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.uni-expanded-content {
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 24px;
+/* University Grid */
+.uni-section {
+  padding: 120px 0;
+  background: var(--pure-white);
 }
 
-.uni-highlights h4 {
-  font-size: 1.05rem;
-  color: #fff;
-  margin-bottom: 14px;
-  font-weight: 700;
-}
-
-.highlights-grid {
+.uni-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
 }
 
-.highlight-item {
+.uni-card-full {
+  background: var(--card-bg);
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(30, 115, 216, 0.1);
+  transition: all 0.4s;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.92rem;
-  color: var(--text-dark);
+  flex-direction: column;
 }
 
-.highlight-item svg {
-  color: #059669;
-  flex-shrink: 0;
+.uni-card-full:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--premium-shadow);
+  border-color: var(--ocean-blue);
 }
 
-/* Courses Table */
-.uni-courses-section {
-  margin-bottom: 28px;
+.uni-image-box {
+  height: 350px;
+  position: relative;
 }
 
-.uni-courses-section h4 {
-  font-size: 1.05rem;
-  color: #fff;
-  margin-bottom: 14px;
-  font-weight: 700;
-}
-
-.courses-table-wrapper {
-  overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.courses-table {
+.uni-image-box img {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.92rem;
+  height: 100%;
+  object-fit: cover;
 }
 
-.courses-table thead {
-  background: rgba(255, 255, 255, 0.05);
+.uni-info-box {
+  padding: 48px;
 }
 
-.courses-table th {
-  text-align: left;
-  padding: 12px 16px;
-  font-weight: 700;
-  color: #fff;
-  font-size: 0.85rem;
+.uni-badge {
+  background: var(--sunshine-yellow);
+  color: var(--deep-blue);
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.courses-table td {
-  padding: 12px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.courses-table tbody tr {
-  transition: background 0.2s ease;
-}
-
-.courses-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.level-badge {
+  margin-bottom: 20px;
   display: inline-block;
-  padding: 4px 12px;
-  border-radius: 6px;
+}
+
+.uni-name-full {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--deep-blue);
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.uni-desc-full {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.uni-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(30, 115, 216, 0.1);
+}
+
+.uni-stat {
+  text-align: center;
+}
+
+.uni-stat strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ocean-blue);
+}
+
+.uni-stat span {
   font-size: 0.8rem;
+  color: var(--text-light);
   font-weight: 600;
-}
-
-/* Actions */
-.uni-actions {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-top: 8px;
-}
-
-.uni-actions .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  text-transform: uppercase;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .uni-hero {
-    min-height: 440px;
-    padding: 100px 16px 40px;
-  }
-
-  .uni-hero-title {
-    font-size: 2.2rem;
-  }
-
-  .uni-hero-subtitle {
-    font-size: 1rem;
-  }
-
-  .uni-hero-stats {
-    gap: 12px;
-  }
-
-  .stat-item {
-    padding: 10px 14px;
-    flex: 1 1 auto;
-    min-width: 140px;
-  }
-
-  .stat-item strong {
-    font-size: 1.1rem;
-  }
-
-  .uni-detail-img {
-    height: 200px;
-  }
-
-  .uni-detail-body {
-    padding: 24px 20px 28px;
-  }
-
-  .uni-detail-header h2 {
-    font-size: 1.35rem;
-  }
-
-  .uni-meta-row {
-    gap: 12px;
-  }
-
-  .highlights-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .uni-actions {
-    flex-direction: column;
-  }
-
-  .uni-actions .btn {
-    width: 100%;
-    justify-content: center;
-  }
+@media (max-width: 992px) {
+  .uni-grid { grid-template-columns: 1fr; }
+  .uni-hero-title { font-size: 3.5rem; }
 }

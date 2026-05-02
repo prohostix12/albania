@@ -1,529 +1,437 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useSpring, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
-  Play,
-  X,
-  GraduationCap, 
-  Euro, 
-  Globe2, 
-  Briefcase, 
-  MapPin, 
-  CheckCircle2,
-  PlayCircle,
-  MessageCircle,
-  ArrowRight,
-  ChevronRight,
-  Star,
+  ArrowRight, 
+  Search,
+  GraduationCap,
+  Sparkles,
+  Plane,
+  ShieldCheck,
+  Globe,
+  Award,
   Users,
-  BookOpen,
-  Shield,
-  ChevronDown
+  Home,
+  MapPin,
+  User,
+  Compass,
+  CheckCircle,
+  TrendingUp,
+  MessageCircle,
+  LayoutGrid,
+  Euro,
+  Briefcase,
+  PlayCircle
 } from 'lucide-react';
+import Link from 'next/link';
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 }
-  }
-};
-
-/* Animated Counter Component */
-function AnimatedCounter({ target, suffix = '', duration = 2 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          let start = 0;
-          const step = target / (duration * 60);
-          const timer = setInterval(() => {
-            start += step;
-            if (start >= target) {
-              setCount(target);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(start));
-            }
-          }, 1000 / 60);
-        }
-      },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
-/* Typewriter text rotator */
-const rotatingWords = [
-  "Affordable European Education",
-  "Globally Recognized Degrees",
-  "Gateway to EU Careers",
-  "Your Future Starts Here"
-];
-
-function VideoModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
+export default function HomePage() {
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="video-modal-overlay"
-      onClick={onClose}
-    >
-      <motion.div 
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        className="video-modal-content"
-        onClick={e => e.stopPropagation()}
-      >
-        <button className="video-close-btn" onClick={onClose}><X size={24} /></button>
-        <div className="video-player-wrapper">
-          <iframe 
-            width="100%" 
-            height="100%" 
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
-            title="AJINORA Preview" 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
-          ></iframe>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const [wordIndex, setWordIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <main className="noise-bg">
-      {/* Scroll Progress Indicator */}
-      <motion.div 
-        className="progress-bar" 
-        style={{ scaleX }} 
-      />
-
-      {/* 1. Hero Section — Cinematic */}
-      <section className="hero">
-        <div className="hero-visual">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="hero-video"
-          >
-            <source src="https://v1.pinimg.com/videos/mc/720p/b8/a0/c3/b8a0c30eb2f36854d3ca7e877c579878.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div className="hero-overlay"></div>
-
-
-        {/* Floating Particles */}
-        <div className="hero-particles">
-          {[
-            { left: 5, bottom: 12, dur: 6, del: 0, dy: -280, dx: 40 },
-            { left: 15, bottom: 8, dur: 7, del: 1.2, dy: -350, dx: -30 },
-            { left: 25, bottom: 18, dur: 5, del: 2.5, dy: -240, dx: 60 },
-            { left: 35, bottom: 4, dur: 8, del: 0.5, dy: -400, dx: -50 },
-            { left: 45, bottom: 14, dur: 6, del: 3, dy: -300, dx: 20 },
-            { left: 55, bottom: 6, dur: 9, del: 1, dy: -320, dx: -70 },
-            { left: 65, bottom: 16, dur: 5, del: 4, dy: -260, dx: 45 },
-            { left: 75, bottom: 2, dur: 7, del: 0.8, dy: -380, dx: -25 },
-            { left: 85, bottom: 10, dur: 6, del: 2, dy: -290, dx: 55 },
-            { left: 92, bottom: 15, dur: 8, del: 3.5, dy: -340, dx: -40 },
-            { left: 10, bottom: 3, dur: 7, del: 1.5, dy: -310, dx: 35 },
-            { left: 30, bottom: 11, dur: 5, del: 4.5, dy: -250, dx: -60 },
-            { left: 50, bottom: 19, dur: 9, del: 0.3, dy: -370, dx: 15 },
-            { left: 70, bottom: 7, dur: 6, del: 2.8, dy: -280, dx: -45 },
-            { left: 88, bottom: 13, dur: 8, del: 1.8, dy: -330, dx: 50 },
-          ].map((p, i) => (
-            <motion.div
-              key={i}
-              className="particle"
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: [0, 0.6, 0],
-                y: [0, p.dy],
-                x: [0, p.dx]
-              }}
-              transition={{
-                duration: p.dur,
-                repeat: Infinity,
-                delay: p.del,
-                ease: "easeOut"
-              }}
-              style={{
-                left: `${p.left}%`,
-                bottom: `${p.bottom}%`
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Main Content */}
-        <div className="hero-content">
-          {/* Tag */}
+    <main style={{ minHeight: '100vh', background: 'white' }}>
+      {/* ── Section 1: Split SaaS Hero ── */}
+      <section style={{ padding: '120px 0 80px', position: 'relative', overflow: 'hidden' }}>
+        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }}>
+          
+          {/* Left Content */}
           <motion.div
-            className="hero-tag"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <GraduationCap size={16} />
-            <span>Your Gateway to European Education</span>
-          </motion.div>
-
-          {/* Headline */}
-          <div className="reveal-text">
-            <motion.h1 
-              className="hero-title reveal-text-content"
-              initial={{ opacity: 0, y: "100%" }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Study in <span className="hero-highlight">Albania</span>
-            </motion.h1>
-          </div>
-
-          {/* Rotating Subtitle */}
-          <div className="hero-subtitle-wrapper">
-            <AnimatePresence mode="wait">
-              <motion.p 
-                key={wordIndex}
-                className="hero-subtitle"
-                initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                transition={{ duration: 0.5 }}
-              >
-                {rotatingWords[wordIndex]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          {/* Description */}
-          <motion.p
-            className="hero-desc"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            Join 5,000+ international students in Albania. Get world-class Bachelor & Master degrees 
-            at a fraction of the cost — with pathways to careers across Europe.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div 
-            className="hero-buttons"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <motion.button 
-              className="btn btn-primary hero-btn-glow"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Apply Now <ArrowRight size={18} />
-            </motion.button>
-          </motion.div>
-
-
-        </div>
-      </section>
-
-      {/* 2. About Albania & Education */}
-      <section className="section-padding" style={{ background: 'transparent' }}>
-        <div className="container">
-          <div className="section-header">
-            <motion.h2 
-              className="section-title"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-            >
-              Why Choose Albania?
-            </motion.h2>
-            <motion.p 
-              className="section-subtitle"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-            >
-              Experience a world-class European education system at a fraction of the cost.
-            </motion.p>
-          </div>
-
-          <motion.div 
-            className="about-grid"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {[
-              { icon: GraduationCap, title: "3-Year Bachelor / 2-Year Master", desc: "Fast-tracked European degree programs." },
-              { icon: Globe2, title: "European Credit Transfer (ECTS)", desc: "Globally recognized degrees and credit transfers." },
-              { icon: Euro, title: "Low Tuition Fees", desc: "Highly affordable compared to the rest of Europe." }
-            ].map((item, i) => (
-              <motion.div 
-                key={i} 
-                className="about-card glass-card-premium" 
-                variants={fadeIn}
-                whileHover={{ y: -10 }}
-              >
-                <div className="about-icon">
-                  <item.icon size={32} />
-                </div>
-                <h3>{item.title}</h3>
-                <p style={{ marginTop: '12px', color: 'rgba(255,255,255,0.6)' }}>{item.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 3. Universities & Courses */}
-      <section className="section-padding" style={{ background: 'transparent' }}>
-        <div className="container">
-          <div className="section-header">
-            <motion.h2 className="section-title" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              Top Universities
-            </motion.h2>
-            <motion.p className="section-subtitle" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              Partnering with Albania's premier institutions for your academic success.
-            </motion.p>
-          </div>
-
-          <motion.div 
-            className="universities-grid"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {[
-              { name: "Canadian Institute of Technology", courses: "IT, Engineering, Business", img: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-              { name: "Epoka University", courses: "Engineering, Architecture", img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-              { name: "Mediterranean University", courses: "Business, Economics", img: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-              { name: "Western Balkans University", courses: "Technology, Innovation", img: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-              { name: "Luarasi University", courses: "Law, Social Sciences", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
-            ].map((uni, i) => (
-              <motion.div key={i} className="uni-card" variants={fadeIn}>
-                <div className="uni-img-wrapper">
-                  <img src={uni.img} alt={uni.name} className="uni-img" loading="lazy" />
-                </div>
-                <div className="uni-content glass-card-premium" style={{ border: 'none', background: 'rgba(255,255,255,0.05)' }}>
-                  <h3 className="uni-title" style={{ color: 'white' }}>{uni.name}</h3>
-                  <p className="uni-courses" style={{ color: 'rgba(255,255,255,0.6)' }}>{uni.courses}</p>
-                  <button className="btn btn-secondary" style={{ width: '100%', padding: '10px' }}>
-                    View Details
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 4. Placement Opportunities */}
-      <section className="section-padding" style={{ background: 'transparent' }}>
-        <div className="container">
-          <div className="section-header">
-            <motion.h2 className="section-title" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              Career & Global Pathways
-            </motion.h2>
-          </div>
-
-          <motion.div 
-            className="features-grid"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div className="feature-item" variants={fadeIn}>
-              <div className="feature-icon-wrapper"><Briefcase size={24} /></div>
-              <div className="feature-content">
-                <h4 style={{ color: 'white' }}>Internships During Study</h4>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>Gain practical experience through mandatory and optional industry placements.</p>
-              </div>
-            </motion.div>
-            <motion.div className="feature-item" variants={fadeIn}>
-              <div className="feature-icon-wrapper"><Globe2 size={24} /></div>
-              <div className="feature-content">
-                <h4 style={{ color: 'white' }}>Job Opportunities in Europe</h4>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>An Albanian degree opens doors to the vast European job market.</p>
-              </div>
-            </motion.div>
-            <motion.div className="feature-item" variants={fadeIn}>
-              <div className="feature-icon-wrapper"><GraduationCap size={24} /></div>
-              <div className="feature-content">
-                <h4 style={{ color: 'white' }}>Pathway to EU Masters</h4>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>Seamlessly transfer or apply to top universities across the EU.</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 5. Part-Time Work & Living Cost */}
-      <section className="section-padding" style={{ background: 'var(--bg-gradient)' }}>
-        <div className="container">
-          <motion.div 
-            className="about-grid"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div 
-              className="about-card glass-card-premium" 
-              variants={fadeIn}
-              whileHover={{ y: -10 }}
-            >
-              <h3 style={{ fontSize: '2rem', color: 'var(--secondary-blue)' }}>20hrs/week</h3>
-              <p style={{ marginTop: '16px', fontWeight: '600', color: 'white' }}>Part-time Work Options</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>Legally work while studying</p>
-            </motion.div>
-            <motion.div 
-              className="about-card glass-card-premium" 
-              variants={fadeIn}
-              whileHover={{ y: -10 }}
-            >
-              <h3 style={{ fontSize: '2rem', color: 'var(--secondary-blue)' }}>₹25k - ₹40k</h3>
-              <p style={{ marginTop: '16px', fontWeight: '600', color: 'white' }}>Monthly Living Cost</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>Highly affordable lifestyle</p>
-            </motion.div>
-            <motion.div 
-              className="about-card glass-card-premium" 
-              variants={fadeIn}
-              whileHover={{ y: -10 }}
-            >
-              <div className="about-icon" style={{ margin: '0 auto 16px' }}><MapPin size={32} /></div>
-              <p style={{ fontWeight: '600', color: 'white' }}>Affordable Accommodation</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>Hostels & shared apartments available easily</p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 6. Testimonials Carousel */}
-      <section className="section-padding" style={{ background: 'transparent' }}>
-        <div className="container">
-          <div className="section-header">
-            <motion.h2 className="section-title" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-              Student Experiences
-            </motion.h2>
-            <p className="section-subtitle">Hear directly from international students studying in Albania.</p>
-          </div>
-
-          <motion.div 
-            style={{ 
-              display: 'flex', 
-              gap: '24px', 
-              overflowX: 'auto', 
-              padding: '20px 4px',
-              scrollSnapType: 'x mandatory'
-            }}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {[1, 2, 3].map((_, i) => (
-              <div key={i} style={{ 
-                flex: '0 0 80%', 
-                maxWidth: '400px', 
-                scrollSnapAlign: 'start',
-                position: 'relative',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                aspectRatio: '16/9',
-                backgroundColor: '#1a1a1a',
-                boxShadow: 'var(--card-shadow)'
-              }}>
-                <img 
-                  src={`https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`} 
-                  alt="Student" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }}
-                />
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'white' }}>
-                  <PlayCircle size={48} />
-                </div>
-                <div style={{ position: 'absolute', bottom: '16px', left: '16px', color: 'white' }}>
-                  <h4 style={{ margin: 0 }}>Student #{i+1}</h4>
-                  <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.8 }}>IT Program</p>
-                </div>
-              </div>
-            ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--ocean-blue)', fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>
+              <LayoutGrid size={18} />
+              <span>Premium Education Portal</span>
+            </div>
+            
+            <h1 style={{ fontSize: 'clamp(4rem, 6vw, 6rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: '32px', color: 'var(--deep-blue)' }}>
+              <span style={{ color: 'var(--deep-blue)' }}>Explore.</span><br/>
+              <span style={{ color: 'var(--ocean-blue)' }}>Learn.</span> <span style={{ color: 'var(--yellow)' }}>Grow.</span>
+            </h1>
+
+            <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '48px', maxWidth: '540px' }}>
+              Unlock global opportunities with personalized academic guidance. We bridge the gap between aspirational scholars and world-class European institutions.
+            </p>
+
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '64px' }}>
+              <Link href="/courses" className="btn btn-deep" style={{ padding: '16px 32px' }}>Apply Now <ArrowRight size={20} /></Link>
+              <Link href="/universities" className="btn btn-ocean" style={{ padding: '16px 32px' }}>Explore Programs</Link>
+            </div>
+
+            {/* Airplane Path Animation */}
+            <motion.div 
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1.2 }}
+              style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '20px' }}
+            >
+              <div style={{ width: '200px', height: '2px', border: '1px dashed var(--sky-blue)', opacity: 0.5 }} />
+              <Plane size={32} color="var(--ocean-blue)" style={{ transform: 'rotate(0deg)' }} />
+            </motion.div>
           </motion.div>
+
+          {/* Right Content: Vertical Image Slices */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', height: '500px' }}>
+            {[
+              { url: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80", label: "Paris" },
+              { url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80", label: "Students" },
+              { url: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80", label: "London" },
+              { url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80", label: "Graduate" }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ height: '0%' }}
+                animate={{ height: '100%' }}
+                transition={{ delay: i * 0.15, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                style={{ 
+                  position: 'relative', 
+                  borderRadius: 'var(--radius-lg)', 
+                  overflow: 'hidden',
+                  marginTop: i % 2 === 0 ? '0' : '40px',
+                  marginBottom: i % 2 === 0 ? '40px' : '0'
+                }}
+              >
+                <img src={item.url} alt={item.label} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13, 27, 61, 0.6) 0%, transparent 40%)' }} />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 7. Strong Call-To-Action */}
-      <section className="cta-section">
+
+
+      {/* ── Section: Why Choose Albania ── */}
+      <section className="section" style={{ background: 'var(--light-gray)', color: 'var(--text-primary)', position: 'relative', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '16px', color: 'var(--deep-blue)' }}>Why Choose Albania?</h2>
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', maxWidth: '700px', margin: '0 auto' }}>Experience a world-class European education system at a fraction of the cost.</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+            {[
+              { icon: GraduationCap, title: "3-Year Bachelor / 2-Year Master", desc: "Fast-tracked European degree programs.", accent: "var(--ocean-blue)" },
+              { icon: Globe, title: "European Credit Transfer (ECTS)", desc: "Globally recognized degrees and credit transfers.", accent: "var(--yellow)" },
+              { icon: Euro, title: "Low Tuition Fees", desc: "Highly affordable compared to the rest of Europe.", accent: "var(--ocean-blue)" }
+            ].map((feature, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ y: -10 }}
+                style={{ 
+                  padding: '48px 32px', 
+                  borderRadius: '24px', 
+                  background: 'white', 
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
+                <div style={{ 
+                  width: '72px', height: '72px', borderRadius: '50%', 
+                  background: feature.accent === 'var(--yellow)' ? 'rgba(255, 193, 7, 0.15)' : 'rgba(30, 115, 216, 0.1)', 
+                  color: feature.accent === 'var(--yellow)' ? '#d4a004' : feature.accent, 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                  marginBottom: '24px' 
+                }}>
+                  <feature.icon size={36} strokeWidth={1.5} />
+                </div>
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '16px', fontWeight: 800, color: 'var(--deep-blue)' }}>{feature.title}</h3>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>{feature.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section: Top Universities ── */}
+      <section className="section" style={{ background: 'var(--light-gray)', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
         <div className="container">
-          <motion.h2 
-            className="cta-title"
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100 }}
-          >
-            Start Your Study Abroad Journey Today
-          </motion.h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' }}>
+            <div>
+              <span style={{ color: 'var(--ocean-blue)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem', display: 'block', marginBottom: '12px' }}>Prestigious Institutions</span>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--deep-blue)' }}>Top Universities</h2>
+            </div>
+            <Link href="/universities" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '12px', border: '2px solid var(--deep-blue)', color: 'var(--deep-blue)', fontWeight: 700, textDecoration: 'none' }}>
+              View All Universities <ArrowRight size={18} />
+            </Link>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+            {[
+              { 
+                name: "University of Tirana", 
+                location: "Tirana, Albania", 
+                img: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=600&q=80",
+                desc: "The largest and highest ranking public university in Albania."
+              },
+              { 
+                name: "Epoka University", 
+                location: "Tirana, Albania", 
+                img: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80",
+                desc: "A premier private institution focusing on technology, architecture and business."
+              },
+              { 
+                name: "Polis University", 
+                location: "Tirana, Albania", 
+                img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+                desc: "Specialized in architecture, art design, and urban planning."
+              }
+            ].map((uni, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                whileHover={{ y: -10, boxShadow: '0 25px 50px rgba(0,0,0,0.15)' }}
+                style={{ 
+                  background: 'var(--deep-blue)', 
+                  borderRadius: '24px', 
+                  overflow: 'hidden',
+                  position: 'relative',
+                  height: '420px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                  transition: 'all 0.4s ease'
+                }}
+              >
+                <motion.img 
+                  src={uni.img} 
+                  alt={uni.name} 
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.5 }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+                
+                {/* Gradient Overlay */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13, 27, 61, 0.95) 0%, rgba(13, 27, 61, 0.4) 60%, transparent 100%)', pointerEvents: 'none' }} />
+                
+                {/* Location Badge */}
+                <div style={{ position: 'absolute', top: '24px', right: '24px', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', padding: '8px 16px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, color: 'var(--deep-blue)', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                  <MapPin size={14} color="var(--ocean-blue)" />
+                  {uni.location}
+                </div>
+
+                {/* Content Container */}
+                <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '32px', display: 'flex', flexDirection: 'column', zIndex: 2 }}>
+                  <h3 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'white', marginBottom: '8px' }}>{uni.name}</h3>
+                  <p style={{ color: 'var(--sky-blue)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '24px', opacity: 0.9 }}>{uni.desc}</p>
+                  
+                  <Link href={`/universities`} style={{ color: 'var(--yellow)', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    Explore Programs <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section: Career & Global Pathways ── */}
+      <section className="section" style={{ background: 'white', color: 'var(--text-primary)', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '64px', color: 'var(--deep-blue)' }}>Career & Global Pathways</h2>
+            
+            {/* Horizontal 3 Items */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', textAlign: 'left', marginBottom: '80px' }}>
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 193, 7, 0.15)', color: '#d4a004', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Briefcase size={28} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '8px' }}>Internships During Study</h4>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>Gain practical experience through mandatory and optional industry placements.</p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(30, 115, 216, 0.1)', color: 'var(--ocean-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Globe size={28} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '8px' }}>Job Opportunities in Europe</h4>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>An Albanian degree opens doors to the vast European job market.</p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 193, 7, 0.15)', color: '#d4a004', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <GraduationCap size={28} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '8px' }}>Pathway to EU Masters</h4>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>Seamlessly transfer or apply to top universities across the EU.</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* 3 Big Cards Below */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+              <motion.div 
+                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+                style={{ background: 'var(--light-gray)', padding: '48px 32px', borderRadius: '24px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.03)', transition: 'all 0.3s ease' }}
+              >
+                <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--ocean-blue)', marginBottom: '16px' }}>20hrs/week</div>
+                <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '12px' }}>Part-time Work Options</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Legally work while studying</p>
+              </motion.div>
+              
+              <motion.div 
+                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+                style={{ background: 'var(--light-gray)', padding: '48px 32px', borderRadius: '24px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.03)', transition: 'all 0.3s ease' }}
+              >
+                <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--yellow)', marginBottom: '16px' }}>₹25k - ₹40k</div>
+                <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '12px' }}>Monthly Living Cost</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>Highly affordable lifestyle</p>
+              </motion.div>
+              
+              <motion.div 
+                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
+                style={{ background: 'var(--light-gray)', padding: '48px 32px', borderRadius: '24px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.03)', transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              >
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(30, 115, 216, 0.1)', color: 'var(--ocean-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                  <MapPin size={32} strokeWidth={1.5} />
+                </div>
+                <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--deep-blue)', marginBottom: '12px' }}>Affordable Accommodation</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.5 }}>Hostels & shared apartments available easily</p>
+              </motion.div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section: Student Experiences ── */}
+      <section className="section" style={{ background: '#050505', color: 'white' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '16px' }}>Student Experiences</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Hear directly from international students studying in Albania.</p>
+          </div>
+          
+          {/* Scrollable Container */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '24px', 
+            overflowX: 'auto', 
+            paddingBottom: '32px',
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'var(--ocean-blue) #222'
+          }}>
+            {[
+              { img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80", name: "Student #1", program: "IT Program" },
+              { img: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80", name: "Student #2", program: "Medical Program" },
+              { img: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=600&q=80", name: "Student #3", program: "Business Program" },
+              { img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80", name: "Student #4", program: "Engineering Program" }
+            ].map((student, i) => (
+              <motion.div 
+                key={i}
+                whileHover={{ scale: 1.02 }}
+                style={{ 
+                  width: '380px', 
+                  flexShrink: 0, 
+                  height: '240px', 
+                  borderRadius: '20px', 
+                  position: 'relative', 
+                  overflow: 'hidden',
+                  scrollSnapAlign: 'start',
+                  cursor: 'pointer'
+                }}
+              >
+                <img src={student.img} alt={student.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', transition: 'background 0.3s ease' }} />
+                
+                {/* Play Button */}
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <PlayCircle size={56} color="white" strokeWidth={1.5} />
+                </div>
+                
+                {/* Text Content */}
+                <div style={{ position: 'absolute', bottom: '24px', left: '24px' }}>
+                  <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white', marginBottom: '4px' }}>{student.name}</h4>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>{student.program}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 5: CTA Banner ── */}
+      <section style={{ padding: '40px 0 60px' }}>
+        <div className="container">
           <motion.div 
-            className="cta-buttons"
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            style={{ 
+              position: 'relative', 
+              borderRadius: '24px', 
+              overflow: 'hidden',
+              background: 'var(--deep-blue)',
+              padding: '48px 32px',
+              textAlign: 'center',
+              boxShadow: '0 20px 40px rgba(13, 27, 61, 0.15)'
+            }}
           >
-            <button className="btn btn-primary" style={{ background: 'var(--white)', color: 'var(--primary-blue)' }}>
-              Apply Now
-            </button>
-            <button className="btn btn-secondary" style={{ borderColor: 'rgba(255,255,255,0.5)', background: 'transparent', color: 'var(--white)' }}>
-              Free Counselling
-            </button>
-            <button className="btn btn-whatsapp">
-              <MessageCircle size={20} /> WhatsApp Us
-            </button>
+            {/* Decorative Background Elements */}
+            <div style={{ position: 'absolute', top: '-40%', left: '-10%', width: '300px', height: '300px', background: 'var(--ocean-blue)', borderRadius: '50%', filter: 'blur(80px)', opacity: 0.25 }} />
+            <div style={{ position: 'absolute', bottom: '-40%', right: '-10%', width: '300px', height: '300px', background: 'var(--yellow)', borderRadius: '50%', filter: 'blur(80px)', opacity: 0.15 }} />
+
+            <div style={{ position: 'relative', zIndex: 10, maxWidth: '700px', margin: '0 auto' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', padding: '4px 12px', borderRadius: '20px', marginBottom: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Sparkles size={14} color="var(--yellow)" />
+                <span style={{ color: 'white', fontWeight: 600, fontSize: '0.75rem', letterSpacing: '1px', textTransform: 'uppercase' }}>Start Your Future</span>
+              </div>
+              
+              <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', fontWeight: 900, color: 'white', marginBottom: '16px', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+                Your Journey. <span style={{ color: 'var(--yellow)' }}>Worldwide.</span>
+              </h2>
+              
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', marginBottom: '24px', lineHeight: 1.5 }}>
+                Join thousands of students who have discovered their path to elite European universities. Experience a world-class education starting now.
+              </p>
+              
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link href="/courses" className="btn" style={{ 
+                  background: 'var(--yellow)', 
+                  color: 'var(--deep-blue)', 
+                  padding: '14px 28px', 
+                  fontSize: '0.95rem', 
+                  fontWeight: 800, 
+                  borderRadius: '10px', 
+                  textDecoration: 'none',
+                  boxShadow: '0 10px 20px rgba(255, 193, 7, 0.2)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.3s ease'
+                }}>
+                  Begin Application <ArrowRight size={16} />
+                </Link>
+                <Link href="/contact" className="btn" style={{ 
+                  background: 'rgba(255,255,255,0.1)', 
+                  color: 'white', 
+                  padding: '14px 28px', 
+                  fontSize: '0.95rem', 
+                  fontWeight: 700, 
+                  borderRadius: '10px', 
+                  textDecoration: 'none',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  transition: 'all 0.3s ease'
+                }}>
+                  Talk to an Advisor
+                </Link>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>

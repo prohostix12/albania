@@ -1,416 +1,216 @@
 "use client";
 
-import { motion, useScroll, useSpring, useMotionValue, useTransform } from 'framer-motion';
-import {
-  Briefcase,
-  GraduationCap,
-  Globe2,
-  TrendingUp,
-  CheckCircle2,
-  ArrowRight,
-  MessageCircle,
-  Building2,
-  MapPin,
-  Star,
-  Users,
-  Monitor,
-  Cpu,
-  BarChart3,
-  Settings,
-  Smartphone,
-  Wrench,
-  HeartPulse,
-  Shield,
-  Database,
-  Leaf,
-  Landmark,
-} from 'lucide-react';
 import Link from 'next/link';
-import './placements.css';
+import { motion } from 'framer-motion';
+import { 
+  Briefcase, 
+  TrendingUp, 
+  Globe, 
+  Users, 
+  CheckCircle2,
+  Building2,
+  ArrowRight,
+  Star,
+  Sparkles,
+  Award,
+  BarChart3,
+  Cloud,
+  Music,
+  Monitor,
+  Smartphone,
+  Server,
+  ShoppingCart
+} from 'lucide-react';
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 36 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
-
-// ── Data ──────────────────────────────────────────────────────────────────────
-
-const companies = [
-  { name: 'Deloitte', sector: 'Consulting', Icon: Landmark, color: '#dbeafe' },
-  { name: 'Accenture', sector: 'IT Services', Icon: Monitor, color: '#f0fdf4' },
-  { name: 'Ernst & Young', sector: 'Finance', Icon: BarChart3, color: '#fffbeb' },
-  { name: 'IBM', sector: 'Technology', Icon: Cpu, color: '#ede9fe' },
-  { name: 'Siemens', sector: 'Engineering', Icon: Settings, color: '#fef3c7' },
-  { name: 'Vodafone', sector: 'Telecom', Icon: Smartphone, color: '#fce7f3' },
-  { name: 'PwC', sector: 'Consulting', Icon: TrendingUp, color: '#e0f2fe' },
-  { name: 'Bosch', sector: 'Engineering', Icon: Wrench, color: '#f0fdf4' },
-  { name: 'Bayer', sector: 'Healthcare', Icon: HeartPulse, color: '#fef2f2' },
-  { name: 'Allianz', sector: 'Insurance', Icon: Shield, color: '#fffbeb' },
-  { name: 'SAP', sector: 'Software', Icon: Database, color: '#ede9fe' },
-  { name: 'Nestlé', sector: 'FMCG', Icon: Leaf, color: '#f0fdf4' },
-];
-
-const steps = [
-  { title: 'Profile Building', desc: 'We polish your CV, LinkedIn, and portfolio to European standards.' },
-  { title: 'Skill Assessment', desc: 'Identify strengths and close gaps through targeted workshops.' },
-  { title: 'Interview Prep', desc: 'Mock interviews, aptitude training, and HR coaching by experts.' },
-  { title: 'Job Matching', desc: 'Connect you directly with our 100+ hiring partners in Europe.' },
-  { title: 'Visa & Relocation', desc: 'Full support for work permits and EU relocation paperwork.' },
-  { title: 'Offer & Onboarding', desc: 'Salary negotiation guidance and smooth transition into your new role.' },
+const stats = [
+  { icon: BarChart3, label: "Placement Rate", value: "94%" },
+  { icon: Award, label: "Average Salary", value: "€32k" },
+  { icon: Building2, label: "Partner Companies", value: "150+" },
+  { icon: Users, label: "Global Alumni", value: "5k+" },
 ];
 
 const stories = [
-  {
-    name: 'Arjun Mehta',
-    from: 'Mumbai, India',
-    degree: 'B.Sc. Computer Engineering — Canadian Institute of Technology',
-    role: 'Software Engineer @ Accenture, Germany',
-    quote: 'The placement cell was exceptional. Within 3 months of graduating, I had two EU job offers on the table.',
-    salary: '€42,000 / year',
-    initial: 'AM',
-    color: '#4F46E5',
-  },
-  {
-    name: 'Priya Sharma',
-    from: 'Delhi, India',
-    degree: 'MBA — Mediterranean University',
-    role: 'Business Analyst @ PwC, Austria',
-    quote: "AJINORA's network made the impossible possible. I never thought I'd be working in Vienna right after my Master's.",
-    salary: '€48,000 / year',
-    initial: 'PS',
-    color: '#059669',
-  },
-  {
-    name: 'Rahul Verma',
-    from: 'Bangalore, India',
-    degree: 'B.Sc. Civil Engineering — Epoka University',
-    role: 'Structural Engineer @ Siemens, Germany',
-    quote: 'The ECTS credits were a game-changer. European employers immediately recognized my Albanian degree.',
-    salary: '€39,000 / year',
-    initial: 'RV',
-    color: '#D97706',
-  },
-  {
-    name: 'Sneha Patel',
-    from: 'Ahmedabad, India',
-    degree: 'M.Sc. Data Science — Western Balkans University',
-    role: 'Data Scientist @ IBM, Netherlands',
-    quote: 'The mock interview sessions were incredibly realistic. I walked into the IBM interview with full confidence.',
-    salary: '€55,000 / year',
-    initial: 'SP',
-    color: '#DB2777',
-  },
-  {
-    name: 'Karan Joshi',
-    from: 'Pune, India',
-    degree: 'LL.B. Law — Luarasi University',
-    role: 'Legal Associate @ Deloitte, Italy',
-    quote: 'A European law degree from Albania gave me access to firms I could never have reached otherwise.',
-    salary: '€36,000 / year',
-    initial: 'KJ',
-    color: '#0891B2',
-  },
-  {
-    name: 'Aisha Nair',
-    from: 'Kochi, India',
-    degree: 'B.Sc. Architecture — Epoka University',
-    role: 'Junior Architect @ Bosch, Switzerland',
-    quote: "The career workshops transformed how I presented myself. I'm now living my dream in Switzerland.",
-    salary: '€44,000 / year',
-    initial: 'AN',
-    color: '#7C3AED',
-  },
+  { name: "Sarah Chen", role: "Software Engineer at Google EU", text: "Studying in Albania gave me the technical foundation and the EU networking opportunities I needed to land my dream job.", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150" },
+  { name: "Markus Weber", role: "Senior Analyst at Deloitte", text: "The MBA program at CIT was world-class. The direct connections to European firms were the key to my rapid career growth.", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150" },
+  { name: "Elena Rossi", role: "UX Designer at Spotify", text: "Albania is a hidden gem for tech education. Affordable, accredited, and highly respected by recruiters across the continent.", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150" },
 ];
-
-const destinations = [
-  { code: 'DE', country: 'Germany', jobs: '2,400+ openings' },
-  { code: 'AT', country: 'Austria', jobs: '1,100+ openings' },
-  { code: 'IT', country: 'Italy', jobs: '980+ openings' },
-  { code: 'NL', country: 'Netherlands', jobs: '1,600+ openings' },
-  { code: 'CH', country: 'Switzerland', jobs: '870+ openings' },
-  { code: 'FR', country: 'France', jobs: '1,200+ openings' },
-  { code: 'BE', country: 'Belgium', jobs: '740+ openings' },
-  { code: 'CZ', country: 'Czech Rep.', jobs: '620+ openings' },
-];
-
-// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PlacementsPage() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
   return (
-    <main className="noise-bg">
-      <motion.div className="progress-bar" style={{ scaleX }} />
-
-      {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="placements-hero">
-        <div className="placements-hero-overlay" />
-        <div className="placements-hero-content">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="placements-hero-tag">Career & Placements</p>
-          </motion.div>
-
-          <div className="reveal-text">
-            <motion.h1
-              className="placements-hero-title reveal-text-content"
-              initial={{ opacity: 0, y: "100%" }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              Your Degree, Your <span>European Career</span>
-            </motion.h1>
-          </div>
-
-          <motion.p
-            className="placements-hero-subtitle"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.35, duration: 0.7 }}
-          >
-            We don&apos;t just help you graduate — we help you land. From CV building to offer letters,
-            our end-to-end placement support connects you to top employers across Europe.
-          </motion.p>
-
-          <motion.div
-            className="placements-hero-stats"
-            initial={{ opacity: 0, y: 30 }}
+    <main style={{ minHeight: '100vh', background: 'var(--bg-white)' }}>
+      {/* ── Subpage Hero ── */}
+      <section className="section" style={{ paddingTop: '200px', paddingBottom: '120px', background: 'var(--midnight)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.2 }}>
+          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, var(--midnight) 20%, transparent 100%)' }} />
+        
+        <div className="container" style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 24px', borderRadius: '100px', background: 'rgba(249, 200, 14, 0.1)', border: '1px solid var(--gold-soft)', color: 'var(--gold)', fontWeight: 800, marginBottom: '24px', fontSize: '0.9rem', letterSpacing: '2px', textTransform: 'uppercase' }}
           >
+            <Briefcase size={18} />
+            <span>Career Excellence</span>
+          </motion.div>
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="hero-title"
+            style={{ marginBottom: '24px', color: 'white' }}
+          >
+            Your Bridge to <span className="gold-text">Global</span> Firms.
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.7)', maxWidth: '800px', margin: '0 auto', lineHeight: 1.6 }}
+          >
+            We don't just provide education; we launch global careers with direct pathways to the world's leading firms.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* ── Stats Section ── */}
+      <section className="section" style={{ background: 'var(--bg-white)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px' }}>
+            {stats.map((s, i) => (
+              <motion.div 
+                key={i}
+                className="premium-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ textAlign: 'center', padding: '40px 24px' }}
+              >
+                <div style={{ width: '72px', height: '72px', borderRadius: '20px', background: 'rgba(255, 193, 7, 0.1)', color: 'var(--yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+                  <s.icon size={32} />
+                </div>
+                <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '8px', color: 'var(--deep-blue)', letterSpacing: '-1px' }}>{s.value}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px' }}>{s.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Partners Section ── */}
+      <section className="section" style={{ background: 'var(--light-gray)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px' }}>
+            <h2 className="section-title" style={{ fontSize: '2.5rem', color: 'var(--deep-blue)', marginBottom: '16px', fontWeight: 800 }}>Where Our <span style={{ color: 'var(--ocean-blue)' }}>Alumni</span> Succeed</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Direct recruitment pipelines with top European and global employers.</p>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '24px', alignItems: 'center' }}>
             {[
-              { number: '92%', label: 'Placement Rate' },
-              { number: '100+', label: 'Hiring Partners' },
-              { number: '€40k', label: 'Avg. Starting Salary' },
-              { number: '18', label: 'EU Countries' },
-            ].map((s) => (
-              <div key={s.label} className="ph-stat">
-                <span className="ph-stat-number">{s.number}</span>
-                <span className="ph-stat-label">{s.label}</span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── Hiring Partners ──────────────────────────────────── */}
-      <section className="placements-section bg-white">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <span className="section-label">Hiring Partners</span>
-            <h2 className="section-heading">
-              Companies That <span>Hire Our Graduates</span>
-            </h2>
-            <p className="section-sub">
-              Our alumni are working at top multinational firms across Europe and beyond.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="companies-grid"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-          >
-            {companies.map((c) => (
-              <motion.div key={c.name} className="company-card glass-card-premium" variants={fadeIn}
-                whileHover={{ y: -6 }}
+              { name: 'Google', icon: Globe },
+              { name: 'Microsoft', icon: Monitor },
+              { name: 'Deloitte', icon: Building2 },
+              { name: 'Amazon', icon: ShoppingCart },
+              { name: 'Spotify', icon: Music },
+              { name: 'Accenture', icon: Briefcase },
+              { name: 'IBM', icon: Server },
+              { name: 'Apple', icon: Smartphone },
+              { name: 'Meta', icon: Users },
+              { name: 'PwC', icon: Building2 },
+            ].map((company, i) => (
+              <motion.div 
+                key={i} 
+                style={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '20px 32px', 
+                  background: 'white', 
+                  borderRadius: '16px', 
+                  boxShadow: 'var(--shadow-soft)', 
+                  border: '1px solid rgba(0,0,0,0.05)',
+                  fontSize: '1.4rem',
+                  fontWeight: 900,
+                  color: 'var(--text-muted)',
+                  letterSpacing: '-0.5px',
+                  transition: 'var(--transition)'
+                }}
+                whileHover={{ y: -5, color: 'var(--deep-blue)', borderColor: 'var(--ocean-blue)', boxShadow: 'var(--shadow-md)' }}
               >
-                <div className="company-icon" style={{ background: c.color }}>
-                  <c.Icon size={24} />
-                </div>
-                <span className="company-name">{c.name}</span>
-                <span className="company-sector">{c.sector}</span>
+                <company.icon size={28} style={{ opacity: 0.8 }} />
+                <span>{company.name}</span>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ─── Placement Process ────────────────────────────────── */}
-      <section className="placements-section bg-dark">
+      {/* ── Success Stories ── */}
+      <section className="section" style={{ background: 'var(--bg-slate)' }}>
         <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <span className="section-label">Our Process</span>
-            <h2 className="section-heading light">
-              How We Get You <span>Placed</span>
-            </h2>
-            <p className="section-sub light">
-              A structured, 6-step journey from graduate to employed professional in Europe.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="process-steps"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-          >
-            {steps.map((step, i) => (
-              <motion.div key={step.title} className="process-step glass-card-premium" variants={fadeIn}
-                whileHover={{ y: -5 }}
+          <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 80px' }}>
+            <h2 className="section-title">Global <span className="gold-text">Success</span> Stories</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>Hear from our alumni working at the forefront of global industry.</p>
+          </div>
+          
+          <div className="grid-3">
+            {stories.map((story, i) => (
+              <motion.div 
+                key={i} 
+                className="premium-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ padding: '48px' }}
               >
-                <div className="process-step-number">{i + 1}</div>
-                <h4 style={{ color: 'white' }}>{step.title}</h4>
-                <p style={{ color: 'rgba(255,255,255,0.6)' }}>{step.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── Success Stories ──────────────────────────────────── */}
-      <section className="placements-section bg-light">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <span className="section-label">Success Stories</span>
-            <h2 className="section-heading">
-              Real Students, <span>Real Jobs</span>
-            </h2>
-            <p className="section-sub">
-              Hear from our graduates who are now thriving in careers across Europe.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="stories-grid"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-          >
-            {stories.map((s) => (
-              <motion.div key={s.name} className="story-card glass-card-premium" variants={fadeIn}
-                whileHover={{ y: -8 }}
-              >
-                <div className="story-header">
-                  <div className="story-avatar" style={{ background: s.color }}>
-                    {s.initial}
-                  </div>
-                  <div className="story-info">
-                    <h4 style={{ color: 'white' }}>{s.name}</h4>
-                    <p style={{ color: 'rgba(255,255,255,0.6)' }}><MapPin size={12} style={{ display: 'inline', marginRight: 3 }} />{s.from}</p>
+                <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '32px' }}>
+                  <img src={story.avatar} alt={story.name} style={{ width: '64px', height: '64px', borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--gold)' }} />
+                  <div>
+                    <h4 style={{ fontSize: '1.2rem', color: 'var(--midnight)', marginBottom: '4px' }}>{story.name}</h4>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--gold-dark)', fontWeight: 700 }}>{story.role}</p>
                   </div>
                 </div>
-                <div className="story-role" style={{ color: 'var(--secondary-blue)' }}>
-                  <Briefcase size={13} />
-                  {s.role}
-                </div>
-                <p className="story-quote" style={{ color: 'rgba(255,255,255,0.8)' }}>"{s.quote}"</p>
-                <div className="story-salary">
-                  <span className="story-salary-label" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    <GraduationCap size={12} style={{ display: 'inline', marginRight: 4 }} />
-                    {s.degree}
-                  </span>
-                </div>
-                <div style={{ marginTop: 10, display: 'flex', justifyContent: 'flex-end' }}>
-                  <span className="story-salary-value" style={{ color: 'var(--secondary-blue)' }}>{s.salary}</span>
+                <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.8, fontStyle: 'italic' }}>
+                  "{story.text}"
+                </p>
+                <div style={{ marginTop: '32px', display: 'flex', gap: '4px' }}>
+                  {[1,2,3,4,5].map(star => <Star key={star} size={16} fill="var(--gold)" color="var(--gold)" />)}
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ─── Job Destinations ─────────────────────────────────── */}
-      <section className="placements-section bg-white">
+      {/* ── Call to Action ── */}
+      <section className="section">
         <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <span className="section-label">Job Destinations</span>
-            <h2 className="section-heading">
-              Where Our Graduates <span>Work</span>
-            </h2>
-            <p className="section-sub">
-              Our network spans 18 European countries, giving you access to thousands of live openings.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="destinations-grid"
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-          >
-            {destinations.map((d) => (
-              <motion.div key={d.country} className="destination-card glass-card-premium" variants={fadeIn}
-                whileHover={{ y: -5 }}
-              >
-                <div className="destination-flag">
-                  <Globe2 size={28} />
-                  <span className="destination-code">{d.code}</span>
-                </div>
-                <div className="destination-country">{d.country}</div>
-                <div className="destination-jobs">{d.jobs}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── CTA ──────────────────────────────────────────────── */}
-      <section className="placement-cta">
-        <div className="container">
-          <motion.h2
-            initial={{ opacity: 0, scale: 0.9 }}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 100 }}
+            style={{ 
+              background: 'var(--midnight)', 
+              borderRadius: '48px', 
+              padding: '100px 60px', 
+              color: 'white', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
           >
-            Ready to Launch Your European Career?
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            Talk to our placement experts today — free, no-obligation counselling session.
-          </motion.p>
-          <motion.div
-            className="placement-cta-buttons"
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            <Link href="/contact" className="btn btn-primary" style={{ background: '#fff', color: '#111' }}>
-              Book Free Session <ArrowRight size={16} />
-            </Link>
-            <button className="btn btn-whatsapp">
-              <MessageCircle size={18} /> WhatsApp Us
-            </button>
+            <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'var(--gold)', borderRadius: '50%', filter: 'blur(150px)', opacity: 0.15 }} />
+            <h2 className="hero-title" style={{ color: 'white', marginBottom: '32px', fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>Your Future <br/> <span className="gold-text">Starts Here.</span></h2>
+            <p style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.6)', maxWidth: '700px', margin: '0 auto 56px' }}>
+              Join the ranks of our successful alumni. Apply for the next intake today.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+              <Link href="/courses" className="btn btn-gold">
+                Find Your Program <ArrowRight size={20} />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
